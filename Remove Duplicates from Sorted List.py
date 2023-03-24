@@ -6,10 +6,13 @@
 class Solution:
     # this function will return the linked list without duplicates, delete all duplicates such that each element appears only once
     def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        # if the head is None return None
+        if not head:
+            return head
         # create a variable to store the head of the linked list
         head_tmp = head
         # iterate over the linked list while the head and the next of the head is not None
-        while head and head.next:
+        while head.next:
             # if the value of the head is equal to the value of the next of the head
             if head.val == head.next.val:
                 # delete the next value with pointing the next of the head to the next of the next of the head

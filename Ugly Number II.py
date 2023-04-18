@@ -1,29 +1,23 @@
-import itertools
 class Solution:
-    def isUgly(self, n: int) -> bool:
-        # if the number is negative or 0, return False
-        if n <= 0:
-            return False
-        # iterate until the number is found to be ugly or not
-        while(True):
-            # if the number is 1, return True
-            if n == 1:
-                return True
-            # if the number is divisible by [2,3,5], divide the number by the divisor
-            else:
-                is_divisible = False
-                for i in [2,3,5]:
-                    if n % i == 0:
-                        is_divisible = True
-                        n = n // i
-                # if the number is not divisible by [2,3,5], return False
-                if is_divisible == False:
-                    return False
     def nthUglyNumber(self, n: int) -> int:
+        # create a list to store the ugly numbers
         result_list = [1]
+        # create three pointers to store the positions of the ugly numbers
+        p1 = 0
+        p2 = 0
+        p3 = 0
+        # iterate until the length of the result_list is equal to n
         while len(result_list) != n:
-            for i in itertools.count(start = result_list[-1] + 1):
-                if(self.isUgly(i)):
-                    result_list.append(i)
-                    break
+            # calculate the minimum of the ugly numbers
+            min_result = min(result_list[p3] * 5, min(result_list[p1] * 2, result_list[p2] * 3))
+            # append the minimum to the result_list
+            result_list.append(min_result)
+            # update the pointers
+            if result_list[p1] * 2 == min_result:
+                p1 += 1
+            if result_list[p2] * 3 == min_result:
+                p2 += 1
+            if result_list[p3] * 5 == min_result:
+                p3 += 1
+        # return the last element of the result_list
         return result_list[-1]

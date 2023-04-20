@@ -1,25 +1,21 @@
 import math
 class Solution:
+    # this function will return the least number of perfect square numbers that sum to n
     def numSquares(self, n: int) -> int:
-        # create a dp dict up to n and initialize it to 0
-        dp_dict = {}
-
-        def recursive_helper(number):
-            if number in dp_dict:
-                return dp_dict[number]
-            if number < 0:
-                return math.inf
-            elif number == 0:
-                return 1
-            up_to = int(math.sqrt(number))
-            for i in range(up_to,0,-1):
-                if number in dp_dict:
-                    dp_dict[number] = min(dp_dict[number], recursive_helper(number-i**2) + 1)
-                else:
-                    dp_dict[number] = recursive_helper(number-i**2) + 1
-            return dp_dict[number]
-        recursive_helper(n)
-        # return the minmum key value in the dp_dict
-        return dp_dict[n] -1
-a = Solution()
-a.numSquares(48)
+        # create a variable to store the result
+        dp_arr = [n] * (n+1)
+        # initialize the first element of the dp_arr to 0
+        dp_arr[0] = 0
+        # iterate over the range of 1 to n
+        for target in range(1,n+1):
+            # iterate over the range of 1 to the target
+            for num in range(1,target+1):
+                # create a variable to store the square of the num
+                squared = num * num
+                # if the target - squared is less than 0, break
+                if target - squared < 0:
+                    break
+                # update the dp_arr
+                dp_arr[target] = min(dp_arr[target], dp_arr[target- squared] + 1)
+        # return the last element of the dp_arr
+        return dp_arr[n]
